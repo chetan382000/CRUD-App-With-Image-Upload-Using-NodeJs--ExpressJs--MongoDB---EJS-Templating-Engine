@@ -1,0 +1,96 @@
+<%- include('layout/header') %>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+  <div class="container">
+    <div class="row my-4">
+      <div class="col-lg-12">
+        <% if (message) { %>
+          <div class="alert alert-dismissible fade show alert-<%= message.type %>" role="alert">
+            <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+            <strong>
+              <%= message.message %>
+            </strong>
+          </div>
+          <% } %>
+            <div class="table-responsive">
+              <% if (users !='' ) { %>
+
+                <table class="table table-striped text-center my-4">
+                  <thead>
+                    <tr class="table-dark">
+                      <th class="text-center">ID</th>
+                      <th class="text-center">Image</th>
+                      <th class="text-center">Name</th>
+                      <th class="text-center">E-Mail</th>
+                      <th class="text-center">Phone</th>
+                      <th class="text-center">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% users.forEach((row,index)=> { %>
+                      <tr class="align-middle">
+                        <td>
+                          <%= index %>
+                        </td>
+                        <td>
+                          <img src="/uploads/<%= row.image %>" width="50" class="rounded-circle border border-secondary img-thumbnail" style="object-fit: cover; width: 50px; height: 50px; cursor: pointer;" alt="image" data-bs-toggle="modal" data-bs-target="#imageModal_<%= row._id %>" data-image="<%= row.image %>">
+                          <!-- Image Modal -->
+                          <div class="modal fade" id="imageModal_<%= row._id %>" tabindex="-1" aria-labelledby="imageModalLabel_<%= row._id %>" aria-hidden="true">
+                              <div class="modal-dialog modal-lg">
+                                  <div class="modal-content">
+                                      <div class="modal-header">
+                                          <h5 class="modal-title" id="imageModalLabel_<%= row._id %>">Full Image</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                      </div>
+                                      <div class="modal-body">
+                                          <img src="/uploads/<%= row.image %>" class="img-fluid" alt="full-image" id="fullImage_<%= row._id %>" width="50%" height="50%" data-image="<%= row.image %>">
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </td>
+                        <td>
+                          <%= row.name %>
+                        </td>
+                        <td>
+                          <%= row.email %>
+                        </td>
+                        <td>
+                          <%= row.phone %>
+                        </td>
+                        <td>
+                          <a href="/update/<%= row._id  %>" class="text-success"><i
+                              class="fas fa-edit fa-lg mx-1"></i></a>
+                          <a href="/delete/<%= row._id  %>" class="text-danger"><i
+                              class="fas fa-trash fa-lg mx-1"></i></a>
+                        </td>
+                      </tr>
+      
+                      <% }) %>
+
+                  </tbody>
+                </table>
+                <% } else{%>
+
+                  <h1 class="text-center text-secondary mt-5">No Users Found In The Database !</h1>
+                  <% } %>
+            </div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('layout/footer') %>
+
+
+    <script>
+      // Function to remove the alert message after 2 seconds
+      setTimeout(function () {
+        var alertMessage = document.querySelector('.alert');
+        if (alertMessage) {
+          alertMessage.remove();
+        }
+      }, 2000); // 2000 milliseconds = 2 seconds
+    </script>
