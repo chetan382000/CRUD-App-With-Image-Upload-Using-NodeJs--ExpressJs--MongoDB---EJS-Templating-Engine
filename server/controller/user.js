@@ -97,9 +97,24 @@ const updateUser = async (req, res) => {
   }
 };
 
+// delete user api
+const deleteUser = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    await User.findByIdAndDelete(userId);
+
+    res.status(200).json({message:"User Delete Successfuly"})
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "INTERNAL SERVER ERROR" });
+  }
+};
+
 module.exports = {
   createUser,
   getUsers,
   getUserbyId,
   updateUser,
+  deleteUser
 };

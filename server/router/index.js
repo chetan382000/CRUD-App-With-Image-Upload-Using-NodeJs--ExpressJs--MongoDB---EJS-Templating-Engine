@@ -18,4 +18,9 @@ router.get("/update/:userId", User.getUserbyId);
 
 router.post("/update/:userId", upload.single("image"), User.updateUser);
 
+// user delete
+
+router.delete("/delete/:userId", User.deleteUser);
+
+
 module.exports = router;
